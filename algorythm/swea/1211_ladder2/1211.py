@@ -1,7 +1,7 @@
 import sys
-sys.stdin = open('input.txt','r')
+sys.stdin = open('1211_ladder2\input.txt','r')
 import copy
-for roop in range(4):
+for roop in range(10):
     T = int(input())
     array = []
     for _ in range(100):
@@ -19,8 +19,6 @@ for roop in range(4):
         cnt = 0
         newray = copy.deepcopy(array)
         while y != 100:
-            if orix ==5 :
-                print(x,y,cnt)
             if x+1 <= 99 and newray[y][x+1] == 1:
                 newray[y][x] = 0
                 x = x + 1
@@ -36,7 +34,5 @@ for roop in range(4):
                 break
         if rst >= cnt:
             rst = cnt
-            rstidx = orix 
-        # print(orix,cnt)           
+            rstidx = orix          
     print(f'#{T} {rstidx}')
-            
