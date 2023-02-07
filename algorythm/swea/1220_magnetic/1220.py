@@ -16,25 +16,26 @@
 [출력]
 #부호와 함께 테스트 케이스의 번호를 출력하고, 공백 문자 후 교착 상태의 개수를 출력한다.
 '''
+import sys
+sys.stdin = open('C:\\Users\\SSAFY\\Desktop\\HDHD\\1학기\\algorythm\\algorythm\\swea\\1220_magnetic\\input.txt','r')
 def check(list1): # 1은 오른쪽으로 2는 왼쪽으로
-    while True:
-        if not 2 in list1[:list1.index(1)]:
-            list1 = list1[list1.index(1):]
-        else:
-            pass    
-        if not 1 in list1[list1.rindex(2):]:
-            list1 = list1[:list1.rindex(2)]    
-        else:
-            pass
+    return
 
-        return
-
-for test_case in range(1,11):
-    array = []
+for test_case in range(1,2):
+    array = [[] for _ in range(100)]
     for _ in range(100):
-        array.append(list(map(int,input().split())))
-    cnt = 0
-    for i in range(100):
-        for j in range(100):
-            pass
-
+        temp = list(map(int,input().split()))
+        for idx in range(len(temp)):
+            if temp[idx] == 1 or temp[idx] == 2:
+                array[idx].append(temp[idx])
+    newray = []
+    for rows in array:
+        lidx, ridx = 0, -1
+        if rows[0] == 2:
+            lidx = rows.index(1)
+        if rows[-1] == 1:
+            temp = list(reversed(rows))
+            ridx = temp.index(2)
+        newray.append(rows[lidx:-ridx])
+        
+    print(newray)
