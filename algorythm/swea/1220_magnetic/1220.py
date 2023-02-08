@@ -18,24 +18,38 @@
 '''
 import sys
 sys.stdin = open('C:\\Users\\SSAFY\\Desktop\\HDHD\\1학기\\algorythm\\algorythm\\swea\\1220_magnetic\\input.txt','r')
-def check(list1): # 1은 오른쪽으로 2는 왼쪽으로
-    return
 
-for test_case in range(1,2):
-    array = [[] for _ in range(100)]
-    for _ in range(100):
+for test_case in range(1,11):
+    N = int(input())
+    array = [[] for _ in range(N)]
+    for _ in range(N):
         temp = list(map(int,input().split()))
         for idx in range(len(temp)):
             if temp[idx] == 1 or temp[idx] == 2:
                 array[idx].append(temp[idx])
-    newray = []
+    newray = []  
+    
     for rows in array:
-        lidx, ridx = 0, -1
+        lidx, ridx = 0, 1
         if rows[0] == 2:
             lidx = rows.index(1)
         if rows[-1] == 1:
             temp = list(reversed(rows))
             ridx = temp.index(2)
-        newray.append(rows[lidx:-ridx])
+            newray.append(rows[lidx:-ridx])
+        else:
+            newray.append(rows[lidx:])    
+    cnt = 0
+    for rows in newray:    
+        newnewray = [rows[0]]
+        for idx in range(len(rows)):# 112 ->12
+            if newnewray[-1] != rows[idx]:
+                newnewray.append(rows[idx])
+        cnt += int(len(newnewray)/2)        
+        # print(rows,'\n',newnewray,cnt)        
+
+
         
-    print(newray)
+        
+          
+    print(f'#{test_case} {cnt}')
