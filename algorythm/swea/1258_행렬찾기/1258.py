@@ -45,12 +45,46 @@ n은 100 이하이다.
 '''
 
 T =int(input())
-for test_case in range(T):
+for test_case in range(1,T+1):
     N = int(input())
     array = []
+    blank = [[0]*N for _ in range(N)]
     for _ in range(N):
-        array.append(list(map(int,input().split())))
-    for rows in range(N):
-        for cols in range(N):
-            if array[rows][cols] != 0:
-                pass
+        array.append(list(map(int,input().split()))) # 어레이생성
+    rects = []
+    y, x = 0 , 0
+    oriy ,orix = y, x
+    while array != blank: # 반복하는동안
+        if array[y][x] != 0: # 사각형의 시작점을 발견, 탐색 시작
+            oriy ,orix = y, x
+            while array[y][x] != 0: # 각 사각형을 깊이 탐색하는 반복문
+                array[y][x] = 0 # 중복 탐색을 막기위해 값을 지움 
+                if x + 1 >= N or array[y][x+1] == 0: # 사각형 행탐색완료
+                    diffx = x + 1 - orix 
+                    x = orix
+                    y = y + 1
+                    if y >= N or array[y][x] == 0: # 사각형 열 탐색 완료
+                        diffy = y - oriy
+                        rects.append((diffy,diffx)) # 사각형 리스트에 사각형의 정보를 튜플로 저장
+                        y, x = oriy, orix # 탐색이 끝났을때 시작점으로 귀환
+                else: # 옆으로 갈 수 있다면
+                    x = x + 1
+        
+        else: # 다음은 어디로 갈까요
+            if x + 1 < N: # 오른쪽으로 갈수있다면
+                x = x + 1 # 오른쪽으로 가!
+            else: # 오륹쪽으로 못가?
+                if y + 1 < N: # 아래는 갈 수 있어?
+                    x = 0 
+                    y = y + 1
+                else: # 아래도 못가?
+                    x = 0 # 한번 더 찾아봐;
+                    y = 0
+
+    #결과값 출력                         
+    rects = sorted(rects, key=lambda x: (x[0]*x[1], x[0] ) ) #사각형들은 크기순으로 정렬, 크기가 같다면 행크기순으로 정렬(모두 오름차순)
+    rst = [x[f] for x in rects for f in (0,1)] # 정렬된 사각형 리스트(안의튜플)를 언패킹하여 다시 저장
+    tc = '#'+str(test_case) #테스트 케이스 출력인자
+    print(tc,'',end='')
+    print(len(rects) ,'', end='')
+    print(*rst)

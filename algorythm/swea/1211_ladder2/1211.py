@@ -7,7 +7,6 @@ for roop in range(10):
     for _ in range(100):
         array.append(list(map(int,input().split())))
     xlist = []
-    cntlist = []
     for idx in range(100) :
         if array[0][idx] == 1:
             xlist.append(idx) 
