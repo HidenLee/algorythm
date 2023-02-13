@@ -27,7 +27,8 @@ V개의 작업과 이들 간의 선행 관계가 주어질 때, 일을 끝낼 �
 [출력]
 각 케이스마다 ‘#x’(x는 테스트케이스의 번호이며 1부터 시작한다)를 출력하고 올바른 작업 순서를 공백으로 구분하여 출력한다.
 '''
-
+import sys
+sys.stdin = open('swea\\1267_작업순서\\input.txt','r')
 T = 1
 for test_case in range(1,T+1):
     totalnode , N = input().split()
@@ -36,29 +37,40 @@ for test_case in range(1,T+1):
     newlist = sorted(newlist,key = lambda x : x[1]) 
     queue = []
     rst = []
-    print(newlist[1])
     for idx in range(len(newlist)): # 출발점 찾기
         if not newlist[idx][0] in [totallist[idx] for idx in range(len(totallist)) if idx%2!=0]: # 여기가 출발점
             queue.append(newlist[idx][0])
-            rst.append(newlist[idx][0])
             queue.append(newlist[idx][1])
+            rst.append(newlist[idx][0])
             rst.append(newlist[idx][1])
             del newlist[idx]
             break
+    print(newlist)
     while newlist != []:
-        for idx in range(len(newlist)): #이어지는 녀석
+        for idx in range(len(newlist)-1): #이어지는 녀석
             # 두번째값에대해 정렬해뒀기때문에 idx+1과 같다면 그건 부모가 여러개인 노드
-            if (idx == len(newlist)-1 and queue == []) or (idx != len(newlist)-1 and newlist[idx][0] == queue[-1] and newlist[idx][1] != newlist[idx+1][1]):
+            if queue == []:
+                pass
+            
+            elif newlist[idx][1] != newlist[idx+1][1] and newlist[idx][0] == queue[-1]:
                 queue.append(newlist[idx][1])
                 rst.append(newlist[idx][1])
                 del newlist[idx]
                 break
-            elif idx != len(newlist)-1 and newlist[idx][1] != newlist[idx+1][1]:
+
+
+            # if (idx == len(newlist)-1 and queue == []) or (idx != len(newlist)-1 and newlist[idx][0] == queue[-1] and newlist[idx][1] != newlist[idx+1][1]):
+            #     queue.append(newlist[idx][1])
+            #     rst.append(newlist[idx][1])
+            #     del newlist[idx]
+            #     break
+            elif idx != len(newlist)-1 and newlist[idx][1] != newlist[idx+1][1]: 
                 pass
         
-        
+
         
         else:
+            print(rst)
             queue.pop()
     
     print(rst)        
