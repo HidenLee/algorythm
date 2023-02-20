@@ -16,53 +16,33 @@ NxN 크기의 미로에서 출발지에서 목적지에 도착하는 경로가 �
 [출력]
 각 줄마다 "#T" (T는 테스트 케이스 번호)를 출력한 뒤, 계산결과를 정수로 출력하거나 또는 ‘error’를 출력한다.
 '''
-def validway(y,x,table):
-    global N
-    if y > 0 and table[y-1][x] not in ['1','X']:
-        return y - 1 , x, True
-    elif x+1 < N and table[y][x+1] not in ['1','X']:
-        return y , x + 1, True
-    elif x > 0 and table[y][x-1] not in ['1','X']:
-        return y, x - 1, True
-    elif y+1 < N and table[y+1][x] not in ['1','X']:
-        return y + 1 , x, True
-    else:
-        return y, x , False
-
-def pr(table,cnt,y,x):
-    print(cnt,y,x,stack)
-    for idx in range(N):
-        print(table[idx])
-    print()
-    return        
-
 T = int(input())
 for test_case in range(1,T+1):
         rst = 0
         N = int(input())
         table = [list(map(str,input())) for _ in range(N)]
-        # print(table)        
+        delta = [(1,0),(0,1),(-1,0),(0,-1)]
         for i in range(N):    
-            for j in range(N):
-                if table[i][j] == '2':
-                    y = i
-                    x = j
+            if '2' in table[i]:
+                y = i
+                x = table[i].index('2')
+                break
         stack = [(y,x)]
-        cnt = 0
         while True:
-            cnt += 1
-            
+            print(y,x)            
             if table[y][x] == '3':
                 rst = 1
                 break                
-            table[y][x] = 'X'
-            pr(table,cnt,y,x)
-            y, x , valid = validway(y,x,table)
-            stack.append((y,x))
-            
-            if valid is False: # noway    
+            table[y][x] = '1'
+            for dlt in delta:
+                if 0 <= y + dlt[0] < N and 0 <= x + dlt[1] < N and table[y+dlt[0]][x+dlt[1]] != '1':
+                    stack.append((y,x)) 
+                    y += dlt[0]
+                    x += dlt[1]
+                    break
+            else:
                 if stack:
-                    y, x = stack.pop()
+                    y,x = stack.pop()
                 else:
                     rst = 0
                     break
