@@ -21,17 +21,28 @@ T = 10
 for test_case in range(1,T+1):
     N = int(input())
     stack = []
-    stack2 = []
-    for elm in input():
-        if elm.isnumeric(): # 피연산자라면
-            stack.append(int(elm))
-        else: # 연산자라면
-            stack2.append(str(elm))
-    ans = stack.pop()   
-    while stack2:
-        if stack2.pop() == '+':
-            ans = plus(ans,stack.pop())
+    multiply = False
+    lst = list(input())
+    for idx in range(len(lst)):
+        if lst[idx] == "*":
+            lst[idx+1] = lst[idx-1] * int(lst[idx+1])
+            lst[idx] = '+'
+            lst[idx-1] = 0
+        elif lst[idx] != '+':
+            lst[idx] = int(lst[idx])
+    switch = False
+    print(lst)
+    for idx in range(len(lst)):
+        if lst[idx] == '+':
+            switch = True
+        else:
+            if switch:
+                stack.append(stack.pop()+lst[idx])
+                switch = False
+            else:
+                if stack
+                stack.append(lst[idx])
     
-    print(f'#{test_case} {ans}')                    
+    print(f'#{test_case} {stack}')                    
             
     

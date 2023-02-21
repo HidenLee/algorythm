@@ -21,21 +21,21 @@
 '''
 
 T = int(input())
-for test_case in range(T):
+for test_case in range(1,T+1):
     lst = input()
     ans = 0
-    switch = 0
     temp = 0
+    stack = []
     for elm in lst:
         if elm == '(':
-            switch = 1
             temp += 1
-        if elm == ')':
-            if switch:
+        elif elm == ')':
+            if stack != [] and stack[-1] == '(':
+                temp -= 1
                 ans += temp
-                switch = 0
-                temp -= 1
             else:
+                stack.pop()
+                ans += 1
                 temp -= 1
-    ans += temp
-    print(ans)        
+        stack.append(elm)
+    print(f'#{test_case} {ans}')        
