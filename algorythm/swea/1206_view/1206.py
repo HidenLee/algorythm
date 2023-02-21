@@ -32,7 +32,7 @@ def view(): # 조망권이 확보된 세대 수를 반환
             temp = smallist[-1] - smallist[-2]
             if temp != 0: # 동점도 포함할까봐 조건 하나더 달아줌
                 goodlist.append(temp)
-    print(goodlist)
+    # print(goodlist)
     return sum(goodlist) # 그래서 총 몇 세대냐!!
 
 
