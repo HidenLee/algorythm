@@ -14,9 +14,6 @@
 [출력]
 #부호와 함께 테스트 케이스의 번호를 출력하고, 공백 문자 후 답을 출력한다.
 '''
-def plus(a,b):
-    return a + b
-
 T = 10
 for test_case in range(1,T+1):
     N = int(input())
@@ -31,7 +28,6 @@ for test_case in range(1,T+1):
         elif lst[idx] != '+':
             lst[idx] = int(lst[idx])
     switch = False
-    print(lst)
     for idx in range(len(lst)):
         if lst[idx] == '+':
             switch = True
@@ -40,9 +36,8 @@ for test_case in range(1,T+1):
                 stack.append(stack.pop()+lst[idx])
                 switch = False
             else:
-                if stack
                 stack.append(lst[idx])
     
-    print(f'#{test_case} {stack}')                    
+    print(f'#{test_case} {stack[0]}')                    
             
     
