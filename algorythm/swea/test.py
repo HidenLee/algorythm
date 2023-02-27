@@ -1,16 +1,10 @@
-for tc in range(10):
-    N = int(input()) # test 번호
-    queue = list(map(int, input().split()))
-    end = True
-    while end:
-        for i in range(1, 6):
-            a = queue[0] - i
-            if a <= 0:
-                queue.pop(0)
-                queue.append(0)
-                end = False
-                break
-            queue.pop(0)
-            queue.append(a)
+arr = ['Fish', 'And', 'Chips']
+N = len(arr)
 
-    print(queue)
+# arr에 대한 모든 경우의 수
+for i in range(1 << N):
+	# j : arr의 index
+	for j in range(N):
+		if i & (1 << j):
+			print(arr[j], end=' ')
+	print()
