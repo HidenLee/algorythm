@@ -25,8 +25,13 @@ for test_case in range(1,11):
     for _ in range(N):
         temp = list(map(int,input().split()))
         for idx in range(len(temp)):
-            if temp[idx] == 1 or temp[idx] == 2:
+            if temp[idx] in [1,2]:
                 array[idx].append(temp[idx])
+    
+    
+    
+    
+    
     newray = []  
     
     for rows in array:
