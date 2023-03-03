@@ -1,46 +1,62 @@
+import sys
+sys.stdin = open('algorythm\\swea\\1767_프로세서 연결하기\\input.txt','r')
+sys.stdout = open('algorythm\\swea\\1767_프로세서 연결하기\\output.txt','w')
+
+
+import copy
 delta = [(1,0),(0,1),(-1,0),(0,-1)]
 
-def func(depth,cnt,cores,table):
-    maxcore = 0
-    minline = 1e9
-    if depth == len(corelist): # 특정 케이스의 탐사 완료
-        if maxcore < cores:
-            maxcore = cores
-            minline = cnt
-        elif maxcore == cores and minline > cnt:
-            minline = cnt
-        return minline
-    for k in range(depth,len(corelist)):
-        ny, nx = corelist[k]
-        for dlt in delta:
-            tmp = 0
-            stack = []
-            while True:
-                ny, nx = ny + dlt[0] , nx + dlt[1]          
-                print(dlt,ny,nx)
-                if 0 <= ny < N and 0 <= nx < N:
-                    if table[ny][nx] != 1:
-                        stack.append((ny,nx)) # 나중에 다시 지워야해서 저장
-                        tmp += 1 # 전선의 길이
-                    
-                else: # 끝에 도달했다면
-                    break
-            
-            for ys, xs in stack:
-                table[ys][xs] = 1
-            func(k+1,cnt+tmp,cores+1,table)
-            
-            for ys, xs in stack:
-                table[ys][xs] = 0   
-                    
+
+def pprint(table): # 디버깅을 위해 만든 array출력 함수
+    for row in table:
+        print(row)
+    print()
+    return
+
+
+
+def drawline(corelist,core,lines,table):
+    global maxcore, minline
+    if len(corelist) + core <= maxcore: # 가망없는 경우의수
+        return
     
-
-
-
-
-
-
-
+    else:
+        if maxcore < core: # 코어 신기록~
+            maxcore = core # 신기록 갱신
+            minline = lines # 줄수 판정
+            
+        elif maxcore == core and minline > lines: # 코어가 같을때 줄이 더 짧은걸 선호
+            minline = lines
+        
+        workspace = copy.deepcopy(table)    
+        y, x = corelist.pop()
+        stack = [[] for _ in range(4)]
+        temp = 1e9
+        for idx in range(4):
+            ny, nx = y, x
+            while True:
+                ny, nx = ny + delta[idx][0], nx + delta[idx][1]
+                if 0 <= ny < N and 0 <= nx < N:
+                    if workspace[ny][nx] == 1: # 이 방향은 안돼
+                        stack[idx] = []
+                        break
+                    else:
+                        stack[idx].append((ny,nx))
+                else: # out of range, 전원 연결 성공
+                    if temp >= len(stack[idx]): # 이 방향이 최선이야!
+                        temp = len(stack[idx])
+                        for jdx in range(4): # 다른 방향으로 그린 전선 제거
+                            for i,j in stack[jdx]:
+                                workspace[i][j] = 0    
+                            
+                        for i,j in stack[idx]: # 이 방향에서 선 긋기
+                            workspace[i][j] = 1
+                        if corelist: # 아직 설치할 코어가 남았면
+                            print(test_case,corelist,minline)
+                            pprint(table)
+                            drawline(corelist,core+1,lines+temp,workspace)
+                    break
+    return minline
 
 
 T = int(input())
@@ -49,11 +65,13 @@ for test_case in range(1,T+1):
     array = [list(map(int,input().split())) for _ in range(N)]
     # visited = [[False]*N for _ in range(N)]
     corelist = []
+    maxcore = 0
+    minline = 1e9
     for i in range(1,N-1):
         for j in range(1,N-1):
             if array[i][j]:
                 corelist.append((i,j))
-    print(func(0,0,0,array))
+    print(drawline(corelist,0,0,array))
     
     
     
