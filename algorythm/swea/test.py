@@ -1,72 +1,42 @@
-delta = [(1,0),(0,1),(-1,0),(0,-1)]
-
 def pprint(table):
+    '''
+    디버깅을 위해 만든 array출력 함수
+    '''
     for row in table:
         print(row)
     print()
-    return
 
 
 
+n = int(input())
 
-    
-def gravity(table):
-    for j in range(W):
-        for i in range(H-1, 0, -1):
-            if table[i][j] == 0:
-                for x in range(1,i+1):
-                    if table[i-x][j]:
-                        table[i][j], table[i-x][j] = table[i-x][j], table[i][j]
-                        break
-    return      
+arr = [
+    [0 for _ in range(n)]
+    for _ in range(n)
+]
 
-def bomb(y,x,table):
-    bombN = table[y][x]
-    # pprint(table)
-    if bombN > 0:
-        table[y][x] = 0
-        for dlt in delta:
-            cnt = 1
-            ny, nx = y, x
-            while cnt < bombN:
-                ny , nx = ny + dlt[0], nx + dlt[1]
-                cnt += 1
-                if 0 <= ny < H and 0 <= nx < W:
-                    bomb(ny,nx,table)
-                    # table[ny][nx] = 0                    
-    return 
+r = n-1
+c = n-1
+arr[r][c] = 1
 
-def findstart(table):
-    starts = []
-    for j in range(W):
-        for i in range(H):
-            if table[i][j]:
-                starts.append((i,j))
-                break 
-    return starts
-            
-def countblocks(table):
-    cnt = 0
-    for i in range(H):
-        for j in range(W):
-            if table[i][j]:
-                cnt += 1    
-    return cnt
+num = 2
+while num <= n ** 2:
+    if c % 2 == 1:
+        r -= 1
+        arr[r][c] = num
+        num += 1
+        if r == 0:
+            c -= 1
+            arr[r][c] = num
+            num += 1
+    else:
+        r += 1
+        arr[r][c] = num
+        num += 1
+        if r == n-1:
+            c -= 1
+            arr[r][c] = num
+            num += 1
 
 
-T = int(input())
-for test_case in range(1,T+1):
-    N, W, H  = map(int, input().split())
-    array = [list(map(int,input().split())) for _ in range(H)]
-    rst = 100000
-    # print(test_case,solve(1,W,H,array))
-    print(test_case)
-    pprint(array)
-    bomb(1,2,array)
-    gravity(array)
-    pprint(array)
-    bomb(2,2,array)
-    gravity(array)
-    pprint(array)
-    
-        
+pprint(arr)

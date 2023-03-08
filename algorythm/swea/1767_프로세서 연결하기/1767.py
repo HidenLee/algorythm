@@ -1,61 +1,62 @@
-import sys
-sys.stdin = open('algorythm\\swea\\1767_프로세서 연결하기\\input.txt','r')
-sys.stdout = open('algorythm\\swea\\1767_프로세서 연결하기\\output.txt','w')
-
-
 import copy
+
+import sys
+sys.stdin = open('algorythm\\algorythm\\swea\\1767_프로세서 연결하기\\input.txt','r', encoding="utf8")
+sys.stdout = open('algorythm\\algorythm\\swea\\1767_프로세서 연결하기\\output.txt','w', encoding="utf8")
+
+
 delta = [(1,0),(0,1),(-1,0),(0,-1)]
 
 
-def pprint(table): # 디버깅을 위해 만든 array출력 함수
+def pprint(table):
+    '''
+    디버깅을 위해 만든 array출력 함수
+    '''
     for row in table:
         print(row)
     print()
-    return
 
 
 
-def drawline(corelist,core,lines,table):
-    global maxcore, minline
-    if len(corelist) + core <= maxcore: # 가망없는 경우의수
+def drawline(lst,core,lines,table):
+    global minline
+    global maxcore
+    if len(lst) + core <= maxcore: # 가망없는 경우의수
         return
-    
-    else:
-        if maxcore < core: # 코어 신기록~
-            maxcore = core # 신기록 갱신
-            minline = lines # 줄수 판정
-            
-        elif maxcore == core and minline > lines: # 코어가 같을때 줄이 더 짧은걸 선호
-            minline = lines
-        
-        workspace = copy.deepcopy(table)    
-        y, x = corelist.pop()
-        stack = [[] for _ in range(4)]
-        temp = 1e9
-        for idx in range(4):
-            ny, nx = y, x
-            while True:
-                ny, nx = ny + delta[idx][0], nx + delta[idx][1]
-                if 0 <= ny < N and 0 <= nx < N:
-                    if workspace[ny][nx] == 1: # 이 방향은 안돼
-                        stack[idx] = []
-                        break
-                    else:
-                        stack[idx].append((ny,nx))
-                else: # out of range, 전원 연결 성공
-                    if temp >= len(stack[idx]): # 이 방향이 최선이야!
-                        temp = len(stack[idx])
-                        for jdx in range(4): # 다른 방향으로 그린 전선 제거
-                            for i,j in stack[jdx]:
-                                workspace[i][j] = 0    
-                            
-                        for i,j in stack[idx]: # 이 방향에서 선 긋기
-                            workspace[i][j] = 1
-                        if corelist: # 아직 설치할 코어가 남았면
-                            print(test_case,corelist,minline)
-                            pprint(table)
-                            drawline(corelist,core+1,lines+temp,workspace)
+    if maxcore < core: # 코어 신기록~
+        maxcore = core # 신기록 갱신
+        minline = lines # 줄수 판정
+
+    elif maxcore == core and minline > lines: # 코어가 같을때 줄이 더 짧은걸 선호
+        minline = lines
+    workspace = copy.deepcopy(table)
+    y, x = lst.pop()
+    stack = [[] for _ in range(4)]
+    temp = 1e9
+    for idx in range(4):
+        ny, nx = y, x
+        while True:
+            ny, nx = ny + delta[idx][0], nx + delta[idx][1]
+            if 0 <= ny < N and 0 <= nx < N:
+                if workspace[ny][nx] == 1: # 이 방향은 안돼
+                    stack[idx] = []
                     break
+                else:
+                    stack[idx].append((ny,nx))
+            else: # out of range, 전원 연결 성공
+                if temp >= len(stack[idx]): # 이 방향이 최선이야!
+                    temp = len(stack[idx])
+                    for jdx in range(4): # 다른 방향으로 그린 전선 제거
+                        for i,j in stack[jdx]:
+                            workspace[i][j] = 0
+
+                    for i,j in stack[idx]: # 이 방향에서 선 긋기
+                        workspace[i][j] = 1
+                    if corelist: # 아직 설치할 코어가 남았면
+                        print(test_case,corelist,minline)
+                        pprint(table)
+                        drawline(corelist,core+1,lines+temp,workspace)
+                break
     return minline
 
 
@@ -72,19 +73,13 @@ for test_case in range(1,T+1):
             if array[i][j]:
                 corelist.append((i,j))
     print(drawline(corelist,0,0,array))
-    
-    
-    
-    
 
 
 
 
 
 
-
-
-'''   
+'''
 #sw아카데미 1767 프로세서 연결하기
 
 dx=[0,0,1,-1]
@@ -131,7 +126,7 @@ def dfs(depth,cnt,connect):
                 dfs(k+1,cnt+leng,connect+1)
 
                 for px,py in tmp:
-                    room[px][py]=0  
+                    room[px][py]=0
 
 
 T=int(input())
