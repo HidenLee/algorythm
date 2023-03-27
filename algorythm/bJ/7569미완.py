@@ -1,9 +1,7 @@
 from collections import deque
 delta = [(0,0,1),(0,0,-1),(0,-1,0),(0,1,0),(1,0,0),(-1,0,0)]
 import sys
-sys.stdin = open('algorythm\\bJ\\input.txt','r')
-
-
+sys.stdin = open('./input.txt','r')
 
 M, N, H = map(int,input().split())
 array = [[] for _ in range(H)]
@@ -17,19 +15,25 @@ for h in range(H):
         array[h].append(temp)
 distance = [[[999]*M for _ in range(N)] for _ in range(H)]
 for i,j,h in tomatoes:
-        distance[h][j][i] = 0
-        visited = set()
-        nxts = deque([(i,j,h)])
-        while nxts:
-            (i,j,h) = nxts.popleft()
-            neighbor = [(i+dlt[0],j+dlt[1],h+dlt[2]) for dlt in delta if 0<=i+dlt[0]<M and 0<=j+dlt[1]<N and 0<=h+dlt[2]<H and not array[h+dlt[2]][j+dlt[1]][i+dlt[0]]]
-            for ni,nj,nh in neighbor:
+    distance[h][j][i] = 0
+    visited = set((i,j,h))
+    nxts = deque([(i,j,h)])
+    while nxts:
+        i,j,h = nxts.popleft()
+        validateroute = False
+        for dlt in delta:
+            ni,nj,nh = i+dlt[0],j+dlt[1],h+dlt[2]
+            if 0<=ni<M and 0<=nj<N and 0<=nh<H and not array[nh][nj][ni] and not (ni,nj,nh) in visited:
+                visited.add((ni,nj,nh))
+                nxts.append((ni,nj,nh))
                 if distance[nh][nj][ni] > distance[h][j][i]:
                     distance[nh][nj][ni] = distance[h][j][i] + 1
-                    if not (ni,nj,nh) in visited:
-                        nxts.append((ni,nj,nh))
-                        visited.add((i,j,h))
-rst = 0
+                    validateroute =True
+        if not validateroute:
+            nxts.clear()
+
+rst = 0                 
+
 for i,j,h in [(a,b,c) for a in range(M) for b in range(N) for c in range(H)]:
     if distance[h][j][i] == 999:
         if not array[h][j][i]:
@@ -40,5 +44,4 @@ for i,j,h in [(a,b,c) for a in range(M) for b in range(N) for c in range(H)]:
             rst = distance[h][j][i]
 else:
     print(rst)
-
 
