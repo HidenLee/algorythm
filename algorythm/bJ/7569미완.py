@@ -20,6 +20,7 @@ for h in range(H):
                 visited.add((i,j,h))    
         array[h].append(temp)
         
+        
 count = 0
 while tomatoes:
     i,j,h = tomatoes.popleft()
