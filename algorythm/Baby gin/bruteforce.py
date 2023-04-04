@@ -1,7 +1,6 @@
 def perm(i,k):
     if i == k:
-        perms.append(p)
-        print(p)
+        perms.append(p[:])
     else:
         for j in range(k):
             if not used[j]:
@@ -36,7 +35,6 @@ for test_case in range(T):
     used = [0]*6
     perm(0,6)
     for each in perms:
-        print(each)
         if each[0]+each[2] == (each[1]*2) and each[3]+each[5] == (each[4]*2): 
             if each[1]-each[0] in [-1,0,1] and each[4]-each[3] in [-1,0,1]:
                 print("True")
