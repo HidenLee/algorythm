@@ -1,5 +1,6 @@
 # https://www.acmicpc.net/problem/12340
-# Fair and Square (Large1) 
+# Fair and Square (Large1)
+# continued to No. 12341  
 
 
 # def ispalindrome(x):
