@@ -20,6 +20,29 @@
 """
 
 
-def get_nthsequence(n):
-    seq = []
+def generate_nxtsequence(S):
+    S += '0'
+    comp = ['',0] # [s,cnt]
+    nxtS = ''
+    mx = 0
+    for s in S:
+        if s != comp[0]:
+            if mx < int(s):
+                mx = int(s)
+            if comp[0]:
+                nxtS += comp[0] + str(comp[1])
+            comp[0] = s
+            comp[1] = 1
+        else:
+            comp[1] += 1
+    return nxtS, mx
+            
 
+T = int(input())
+nxt = '1'
+mx = 0
+for i in range(T-1):
+    nxt, temp = generate_nxtsequence(nxt)
+    if mx < temp:
+        mx = temp
+print(mx)
