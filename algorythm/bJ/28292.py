@@ -45,4 +45,5 @@ for i in range(T-1):
     nxt, temp = generate_nxtsequence(nxt)
     if mx < temp:
         mx = temp
-print(mx)
+print(nxt)
+print(mx,len(nxt))
