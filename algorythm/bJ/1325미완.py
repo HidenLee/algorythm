@@ -1,13 +1,11 @@
 # https://www.acmicpc.net/problem/1325
-
-
 N, M = map(int,input().split())
-trust = [[] for _ in range(N+1)]
+trust = [set() for _ in range(N+1)]
 ans = []
 maxSize = 0
 for _ in range(M):
     A, B = map(int,input().split())
-    trust[B].append(A)
+    trust[B].add(A)
 for idx in range(1,N+1):
     stack = [idx]
     visit = [False]*(N+1)
