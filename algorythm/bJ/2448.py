@@ -18,12 +18,10 @@ def stars(lst):
         lst.append(temp)
     return lst
 
-
 ans = ['','','']
 ans[0] = '*****' 
 ans[1] = ' * * ' 
 ans[2] = '  *  ' 
-
 
 
 for _ in range(K):

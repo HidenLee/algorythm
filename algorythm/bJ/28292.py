@@ -39,11 +39,14 @@ def generate_nxtsequence(S):
             
 
 T = int(input())
-nxt = '1'
-mx = 0
-for i in range(T-1):
-    nxt, temp = generate_nxtsequence(nxt)
-    if mx < temp:
-        mx = temp
-print(nxt)
-print(mx,len(nxt))
+# nxt = '1'
+# mx = 0
+# for i in range(T-1):
+#     nxt, temp = generate_nxtsequence(nxt)
+#     if mx < temp:
+#         mx = temp
+# print(nxt)
+# print(mx,len(nxt))
+
+
+print(1 if T < 3 else 2 if T < 6 else 3)
